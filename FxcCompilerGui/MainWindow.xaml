@@ -1,0 +1,97 @@
+﻿<Window x:Class="FxcCompilerGui.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FxcCompilerGui"
+        Title="FxcCompilerGui" Width="950" Height="650"
+        WindowStartupLocation="CenterScreen"
+        Icon="directx.ico"
+        mc:Ignorable="d">
+    <Grid x:Name="MainGrid" Focusable="True">
+        <DockPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <GroupBox Header="Input" DockPanel.Dock="Top" HorizontalAlignment="Stretch" BorderBrush="Gray" BorderThickness="2">
+                <DockPanel>
+                    <Grid DockPanel.Dock="Top" Margin="-1,0,1,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="25" />
+                            <RowDefinition Height="25" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="50" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="100" />
+                            <ColumnDefinition Width="100" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Fxc:" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,10,0" />
+                        <TextBox Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Stretch" Text="{Binding Path=FxcCompilerPath}" />
+                        <Button Grid.Row="0" Grid.Column="2" Content="Browse" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  Margin="10,2,5,2" Command="{Binding BrowseFxcPathCommand}" />
+
+                        <TextBlock Grid.Row="1" Grid.Column="0" Text="File:" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,10,0" />
+                        <TextBox Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Stretch" Text="{Binding Path=ShaderPath}" />
+                        <Button Grid.Row="1" Grid.Column="2" Content="Browse" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="10,2,5,2" Command="{Binding BrowseShaderCommand}" />
+
+                        <Button Grid.Row="0" Grid.Column="3" Grid.RowSpan="2" Content="Compile" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="5,2,10,2" Command="{Binding CompileCommand}" />
+                    </Grid>
+                    <Grid DockPanel.Dock="Top" Margin="0,10,0,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="25" />
+                            <RowDefinition Height="25" />
+                            <RowDefinition Height="25" />
+                            <RowDefinition Height="25" />
+                            <RowDefinition Height="25" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="70*" />
+                            <ColumnDefinition Width="100*" />
+                            <ColumnDefinition Width="100*" />
+                            <ColumnDefinition Width="120*" />
+                            <ColumnDefinition Width="120*" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Row="0" Grid.Column="0"  Text="Entry Point:" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0" />
+                        <TextBox Grid.Row="0" Grid.Column="1"  HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="{Binding Path=EntryPoint, Mode=TwoWay}" />
+                        <TextBlock Grid.Row="1" Grid.Column="0" Text="Profile Target:" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0" />
+                        <ComboBox Grid.Row="1" Grid.Column="1" Height="Auto"  HorizontalAlignment="Stretch" VerticalAlignment="Center"
+                                  SelectedIndex="{Binding Path=ProfileStringIndex, Mode=TwoWay}" ItemsSource="{Binding Path=ProfileStrings}" />
+                        <TextBlock Grid.Row="2" Grid.Column="0" Text="Optimization Level:" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0" />
+                        <ComboBox Grid.Row="2" Grid.Column="1"  HorizontalAlignment="Stretch" VerticalAlignment="Center"
+                                  SelectedIndex="{Binding Path=OptLevelStringIndex, Mode=TwoWay}" ItemsSource="{Binding Path=OptLevelStrings}" />
+                        <TextBlock Grid.Row="3" Grid.Column="0" Text="Addn. Defines:" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0" />
+                        <ComboBox Grid.Row="3" Grid.Column="1"  HorizontalAlignment="Stretch" VerticalAlignment="Center" IsEditable="True"
+                                  SelectedItem="{Binding Path=SelectedDefine, Mode=TwoWay}" ItemsSource="{Binding Path=Defines}" Text="{Binding Path=NewDefine, UpdateSourceTrigger=LostFocus}" />
+                        <TextBlock Grid.Row="4" Grid.Column="0" Text="Addn. Includes:" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0" />
+                        <ComboBox Grid.Row="4" Grid.Column="1"  HorizontalAlignment="Stretch" VerticalAlignment="Center" IsEditable="True"
+                                  SelectedItem="{Binding Path=SelectedInclude, Mode=TwoWay}" ItemsSource="{Binding Path=Includes}" Text="{Binding Path=NewInclude, UpdateSourceTrigger=LostFocus}" />
+
+                        <CheckBox Grid.Row="0" Grid.Column="2" Content="Enable Debug Info" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0" IsChecked="{Binding Path=EnableDebugInfo, Mode=TwoWay}" />
+                        <CheckBox Grid.Row="1" Grid.Column="2" Content="Use Legacy Compiler" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0" IsChecked="{Binding Path=UseLegacyCompiler, Mode=TwoWay}" />
+                        <CheckBox Grid.Row="2" Grid.Column="2" Content="Avoid Flow Control" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0" IsChecked="{Binding Path=AvoidFlowControl, Mode=TwoWay}" />
+                        <CheckBox Grid.Row="3" Grid.Column="2" Content="Prefer Flow Control" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0" IsChecked="{Binding Path=PreferFlowControl, Mode=TwoWay}" />
+                        <CheckBox Grid.Row="4" Grid.Column="2" Content="Disable Optimizations" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0" IsChecked="{Binding Path=DisableOpt, Mode=TwoWay}" />
+
+                        <CheckBox Grid.Row="0" Grid.Column="3" Content="Treat Warnings as Errors" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0" IsChecked="{Binding Path=TreatWarningsAsErrors, Mode=TwoWay}" />
+                        <CheckBox Grid.Row="1" Grid.Column="3" Content="Disable Effect Performance Mode" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0" IsChecked="{Binding Path=DisableEffectPerfMode, Mode=TwoWay}" />
+                        <CheckBox Grid.Row="2" Grid.Column="3" Content="Enable Backwards Compatibility" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0" IsChecked="{Binding Path=EnableBackwardsCompatMode, Mode=TwoWay}" />
+                        <CheckBox Grid.Row="3" Grid.Column="3" Content="Enable Strict Mode" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0" IsChecked="{Binding Path=EnableStrictMode, Mode=TwoWay}" />
+                        <CheckBox Grid.Row="4" Grid.Column="3" Content="Disable Validation" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0" IsChecked="{Binding Path=DisableValidation, Mode=TwoWay}" />
+
+                        <CheckBox Grid.Row="0" Grid.Column="4" Content="Output assembly to file" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0" IsChecked="{Binding Path=OutputAsm, Mode=TwoWay}" />
+                        <CheckBox Grid.Row="1" Grid.Column="4" Content="Output PDB info to file" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0" IsChecked="{Binding Path=OutputPdb, Mode=TwoWay}" />
+                        <CheckBox Grid.Row="2" Grid.Column="4" Content="Output library file" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0" IsChecked="{Binding Path=OutputLib, Mode=TwoWay}" />
+                        <CheckBox Grid.Row="3" Grid.Column="4" Content="Output warnings and errors to file" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0" IsChecked="{Binding Path=OutputWarnErr, Mode=TwoWay}" />
+                        <CheckBox Grid.Row="4" Grid.Column="4" Content="Preprocess to file only" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0" IsChecked="{Binding Path=PreprocessOnly, Mode=TwoWay}" />
+                    </Grid>
+                </DockPanel>
+            </GroupBox>
+            <GroupBox Header="Command Line" DockPanel.Dock="Top" HorizontalAlignment="Stretch" BorderBrush="Gray" BorderThickness="2">
+                <TextBox x:Name="CmdLineTextBox" Height="60" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" IsReadOnly="True" Text="{Binding Path=CommandLineString, Mode=OneWay}" />
+            </GroupBox>
+            <GroupBox Header="Output" Height="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" BorderBrush="Gray" BorderThickness="2">
+                <Grid>
+                    <TextBox x:Name="OutputTextBox" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" IsReadOnly="True"  Text="{Binding Path=OutputLogString, Mode=OneWay}" />
+                    <Button Width="60" Height="Auto" VerticalAlignment="Top" HorizontalAlignment="Right" Content="Clear" Command="{Binding ClearLogCommand}" Margin="0,-20,0,0" />
+                </Grid>
+            </GroupBox>
+        </DockPanel>
+    </Grid>
+</Window>
